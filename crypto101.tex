@@ -24,7 +24,7 @@
 % \date{\today}
 \date{}
 \author{Yannick Bungers}
-\institute{Free and Open Source Software AG}
+%\institute{Free and Open Source Software AG}
 % \titlegraphic{\hfill\includegraphics[height=1.5cm]{logo.pdf}}
 
 \begin{document}
@@ -36,14 +36,15 @@
 	%	\tableofcontents%[hideallsubsections]
 	%\end{frame}
 	
-	\section[Ziele]{Introduction}
+	\section[Ziele von Kryptografie]{Introduction}
 	
 	\begin{frame}[fragile]{Definition}
 		
 		Kryptographie bzw. Kryptografie (altgriechisch kryptós, deutsch ‚verborgen‘, ‚geheim‘ und gráphein, deutsch ‚schreiben‘) ist ursprünglich die Wissenschaft der Verschlüsselung von Informationen.
 		
-		Heute befasst sie sich auch allgemein mit dem Thema Informationssicherheit, also der Konzeption, Definition und Konstruktion von Informationssystemen, die widerstandsfähig gegen Manipulation und unbefugtes Lesen sind. 
-		
+		Heute befasst sie sich auch allgemein mit dem Thema Informationssicherheit, also der Konzeption, Definition und Konstruktion von Informationssystemen, die widerstandsfähig gegen Manipulation und unbefugtes Lesen sind.\\
+		\vspace{0.35cm} 
+		\textit{Wikipedia: Kryptografie}
 		%\begin{verbatim}    \documentclass{beamer}
 			%\usetheme{metropolis}\end{verbatim}
 		
@@ -66,9 +67,9 @@
 	\section{Grundbegriffe}
 	
 	\begin{frame}{symmetrische Verschlüsselung}
-		\alert{Schlüssel} k\\
-		\alert{Eingabe} t\\
-		\alert{Ciphertext} c\\
+		\alert{Schlüssel} \texttt{k}\\
+		\alert{Eingabe} \texttt{t}\\
+		\alert{Ciphertext} \texttt{c}\\
 		\vspace{0.5cm}
 		Für Ver- und Entschlüsselung wird der gleiche Schlüssel verwendet.\\
 		\texttt{Enc(t, k) = c}\\
@@ -77,10 +78,10 @@
 	\end{frame}
 	
 	\begin{frame}{Asymmetrische Verschlüsselung}
-		\alert{Privater Schlüssel} privk\\
-		\alert{Öffentlicher Schlüssel} pubk\\
-		\alert{Eingabe} t\\
-		\alert{Ciphertext} c\\
+		\alert{Privater Schlüssel} \texttt{privk}\\
+		\alert{Öffentlicher Schlüssel} \texttt{pubk}\\
+		\alert{Eingabe} \texttt{t}\\
+		\alert{Ciphertext} \texttt{c}\\
 		\vspace{0.5cm}
 		Für Ver- und Entschlüsselung werden andere aber abhängige Schlüssel verwendet (Schlüsselpaar).
 		Der \emph{private} Schlüssel darf nicht aus dem \emph{öffentlichen} Schlüssel ableitbar sein.\\
@@ -90,10 +91,10 @@
 	\end{frame}
 
 	\begin{frame}{Signaturen}
-		\alert{Privater Schlüssel} privk\\
-		\alert{Öffentlicher Schlüssel} pubk\\
-		\alert{Eingabe} t\\
-		\alert{Signatur} s\\
+		\alert{Privater Schlüssel} \texttt{privk}\\
+		\alert{Öffentlicher Schlüssel} \texttt{pubk}\\
+		\alert{Eingabe} \texttt{t}\\
+		\alert{Signatur} \texttt{s}\\
 		\vspace{0.5cm}
 		Die Signatur wird mit dem privaten Schlüssel erzeugt und mit dem öffentlichen Schlüssel verifiziert.\\
 		\texttt{Enc(t, privk) = s}\\
