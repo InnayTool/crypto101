@@ -1,0 +1,523 @@
+\documentclass[10pt]{beamer}
+\usepackage[ngerman]{babel}
+\definecolor{fossaggray}{rgb}{0.1,0.1,0.1}
+\definecolor{fossaggreen}{rgb}{0.0,0.7,0.3}
+\definecolor{darkgreen}{rgb}{0.0,0.4,0.0}
+\usetheme[progressbar=frametitle]{metropolis}
+\setbeamercolor{progress bar}{fg=fossaggreen}
+\setbeamercolor{frametitle}{bg=fossaggray}
+\setbeamercolor{alerted text}{fg=fossaggreen}
+
+\usepackage{appendixnumberbeamer}
+
+\usepackage{booktabs}
+\usepackage[scale=2]{ccicons}
+
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+
+\usepackage{xspace}
+\newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
+
+\title{Crypto101}
+\subtitle{Grundwissen Kryptografie}
+% \date{\today}
+\date{}
+\author{Yannick Bungers}
+\institute{Free and Open Source Software AG}
+% \titlegraphic{\hfill\includegraphics[height=1.5cm]{logo.pdf}}
+
+\begin{document}
+	
+	\maketitle
+	
+	%\begin{frame}{Table of contents}
+	%	\setbeamertemplate{section in toc}[sections numbered]
+	%	\tableofcontents%[hideallsubsections]
+	%\end{frame}
+	
+	\section[Ziele]{Introduction}
+	
+	\begin{frame}[fragile]{Definition}
+		
+		Kryptographie bzw. Kryptografie (altgriechisch kryptós, deutsch ‚verborgen‘, ‚geheim‘ und gráphein, deutsch ‚schreiben‘) ist ursprünglich die Wissenschaft der Verschlüsselung von Informationen.
+		
+		Heute befasst sie sich auch allgemein mit dem Thema Informationssicherheit, also der Konzeption, Definition und Konstruktion von Informationssystemen, die widerstandsfähig gegen Manipulation und unbefugtes Lesen sind. 
+		
+		%\begin{verbatim}    \documentclass{beamer}
+			%\usetheme{metropolis}\end{verbatim}
+		
+		%Note, that you have to have Mozilla's \emph{Fira Sans} font and XeTeX
+		%installed to enjoy this wonderful typography.
+	\end{frame}
+	\begin{frame}[fragile]{Sicherheitsziele}
+		\begin{itemize}
+			\item \alert{Vertraulichkeit/Zugriffsschutz}: keine Informationen über den Inhalt
+			\vspace{0.5cm}
+			\item \alert{Integrität/Änderungsschutz}: vollständig und unverändert
+			\vspace{0.5cm}
+			\item \alert{Authentizität/Fälschungsschutz}: Absender identifizierbar
+			\vspace{0.5cm}
+			\item \alert{Verbindlichkeit/Nichtabstreitbarkeit}: Urheberschaft ist nachweisbar
+		\end{itemize}
+		
+	\end{frame}
+	
+	\section{Grundbegriffe}
+	
+	\begin{frame}{symmetrische Verschlüsselung}
+		\alert{Schlüssel} k\\
+		\alert{Eingabe} t\\
+		\alert{Ciphertext} c\\
+		\vspace{0.5cm}
+		Für Ver- und Entschlüsselung wird der gleiche Schlüssel verwendet.\\
+		\texttt{Enc(t, k) = c}\\
+		\texttt{Dec(c, k) = t}\\
+		Ziel: Vertraulickeit, (Integrität), (Authenzität)
+	\end{frame}
+	
+	\begin{frame}{Asymmetrische Verschlüsselung}
+		\alert{Privater Schlüssel} privk\\
+		\alert{Öffentlicher Schlüssel} pubk\\
+		\alert{Eingabe} t\\
+		\alert{Ciphertext} c\\
+		\vspace{0.5cm}
+		Für Ver- und Entschlüsselung werden andere aber abhängige Schlüssel verwendet (Schlüsselpaar).
+		Der \emph{private} Schlüssel darf nicht aus dem \emph{öffentlichen} Schlüssel ableitbar sein.\\
+		\texttt{Enc(t, pubk) = c}\\
+		\texttt{Dec(c, privk) = t}\\
+		\alert{Ziel}: Vertraulickeit, (Integrität)\\
+	\end{frame}
+
+	\begin{frame}{Signaturen}
+		\alert{Privater Schlüssel} privk\\
+		\alert{Öffentlicher Schlüssel} pubk\\
+		\alert{Eingabe} t\\
+		\alert{Signatur} s\\
+		\vspace{0.5cm}
+		Die Signatur wird mit dem privaten Schlüssel erzeugt und mit dem öffentlichen Schlüssel verifiziert.\\
+		\texttt{Enc(t, privk) = s}\\
+		\texttt{Dec(s, pubk) = t}\\
+		\alert{Ziel}: (Integrität), Authenzität, Nichtabstreitbarkeit\\
+	\end{frame}
+
+
+	\begin{frame}{Diffie-Hellman-Key-Exchange}
+		Der Schlüsselaustausch ist ein sehr zentrales Element der Sicherheit von Kryptografie. Mit Hilfe des Diffie-Hellman-Key-Exchange-Verfahrens ist es möglich einen symmetrischen Schlüssel über eine unsichere Verbindung zu etablieren ohne das ein dritter aus den gesendet Nachrichten den Schlüssel ableiten kann.
+	\end{frame}
+	\begin{frame}{symmetrische vs. Asymmetrische Verschlüsselung}
+		\begin{alertblock}{symmetrische Verschlüsselung}
+			\begin{itemize}
+				\item schnell und resourcenschonend
+				\item nicht vollständig gebrochen durch Quantencomputer
+			\end{itemize}
+		\end{alertblock}
+		\begin{alertblock}{Asymmetrische Verschlüsselung}
+			\begin{itemize}
+				\item ein Key pro Partei statt ein Key pro Verbindung
+				\item jeder kann Verschlüsseln
+			\end{itemize}
+		\end{alertblock}
+	\end{frame}
+
+	\begin{frame}{Hashfunktionen}
+		\center{\includegraphics[scale=0.2]{hashtable.png}}
+	\end{frame}
+
+	\begin{frame}{Kryptografische Hashfunktionen}
+		\begin{alertblock}{Voraussetzungen für gute Hashfunktionen}
+			\begin{itemize}
+				\item Geringe Wahrscheinlichkeit für Kollisionen
+				\item Keine unmöglichen Werte
+				\item Effizienz
+			\end{itemize}
+		\end{alertblock}
+		\begin{alertblock}{Kryptografische Voraussetzungen}
+			\begin{itemize}
+				\item \textbf{Chaos oder Lawineneffekt}\\
+				Ähnliche Eingabe, völlig verschiedene Hashwerte
+				\item \textbf{Konfusion}\\
+				Keine Möglichkeit des Rückschlusses von Hashwert auf die Eingabe
+				\item \textbf{Unumkehrbarkeit}\\
+				Keine Möglichkeit aus Hash eine passende Eingabe zu berechnen
+			\end{itemize}
+			
+		\end{alertblock}
+	\end{frame}
+
+	\begin{frame}{Zufallszahlen}
+		\begin{itemize}
+			\item Sehr relevanter Teil von Kryptografie
+			\item Schlüssel werden häufig aus Zufallszahlen generiert
+			\item Ein sehr relevanter Teil von Kryptografie ist, dass der Suchraum für Brute Force angriffe groß ist, bei schlechten Zufallszahlen wird dieser bereich häufig sehr viel kleiner.
+		\end{itemize}
+	\end{frame}
+	
+	\section{Praxis}
+	
+	\begin{frame}{Verknüpfung von Grundlagen}
+		Häufig werden diverse Techniken verbunden:
+		\begin{itemize}
+			\item erst hashen dann den Hash signieren
+			\item Austausch eines Session Keys mit asymmetrischer Kryptografie um dann mit symmetrischer Kryptograpie Daten zu übertragen.
+			\item Signatur und Verschlüsselung um alle angesprochenen Sicherheitsziele zu gewährleisten
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{symmetrische Verschlüsselung in der Praxis}
+		\begin{alertblock}{Unsichere bzw. nicht empfohlene Beispiele}
+			\begin{itemize}
+				\color{red}
+				\item DES, Triple-DES
+				\item RC2, RC4, RC5
+			\end{itemize}
+		\end{alertblock}
+		\begin{alertblock}{Sichere Beispiele}
+			\begin{itemize}
+				\color{darkgreen}
+				\item AES (128 [nicht für postquanten], 192, 256)
+				\item blowfish
+				\item twofish
+				\item RC6
+				\item Serpent
+			\end{itemize}
+		\end{alertblock}
+	\end{frame}
+	
+	\begin{frame}{Hashverfahren in der Praxis}
+		\begin{alertblock}{Unsichere Beispiele für Kryptografie}
+			\begin{itemize}
+				\color{red}
+				\item MD2, MD4, MD5
+				\item SHA0, SHA1
+				\item RIPEMD
+			\end{itemize}
+		\end{alertblock}
+		\begin{alertblock}{Sichere Beispiele}
+			\begin{itemize}
+				\color{darkgreen}
+				\item SHA2 (SHA256, SHA384, SHA512) [Length extension possible]
+				\item SHA3
+				\item BLAKE2s, BLAKE2b, BLAKE3
+			\end{itemize}
+		\end{alertblock}
+		\begin{alertblock}{Für Passwörter}
+			\vspace{0.1cm}
+			Es ist zusätzlich ein Salt nötig um Rainbow-Tables nutzlos zu machen.
+			\vspace{-0.2cm}
+			
+		\begin{itemize}
+			\color{darkgreen}
+			\item bcrypt
+			\item argon2
+		\end{itemize}
+	\end{alertblock}
+	\end{frame}
+	
+	\begin{frame}{Asymmetrische Kryptografie in der Praxis}
+		Für viele Anwendungen wird nur eine Signatur benötigt, da nur sichergestellt werden muss, dass man mit dem richtigen gegenüber kommuniziert, da das Diffie-Hellman-Verfahren einen Key-Austausch über eine unsichere Verbindung ermöglicht. Dies ermöglicht außerdem, dass perfect forward secrecy möglich ist, mit anderen Worten, dass auch bei bekannt werden des privaten Schlüssels nicht alle alten Nachrichten entschlüsselt werden können.
+		
+		\begin{alertblock}{Beispiele}
+			\begin{itemize}
+				\item SSH
+				\item modernes TLS
+			\end{itemize}
+		\end{alertblock}
+		
+		Für z.B. E-Mail-Verschlüsselung hingegen, muss eine asymmetrische Verschlüsselung verwendet werden, da kein Kanal besteht.
+	\end{frame}
+
+	\begin{frame}{TLS}
+		\begin{itemize}
+			\item enstanden aus SSL
+			\item Protokoll zur Verschlüsselung von Daten eine Netzwerkverbindung
+			\item Zusammenstellung von möglichen Algorithmen
+			\item Zertifikate werden in einer Public Key Infrastructure ausgegeben
+		\end{itemize}
+		\begin{alertblock}{Versionen}
+			\begin{itemize}
+				\color{red}
+				\item 1.0 (SSL 3.0)
+				\item 1.1
+				\color{darkgreen}
+				\item 1.2
+				\item 1.3
+			\end{itemize}
+		\end{alertblock}
+	\end{frame}
+	
+	
+	
+	\subsection{Tricks}
+	
+	{
+		\metroset{titleformat frame=smallcaps}
+		\begin{frame}{Small caps}
+			This frame uses the \texttt{smallcaps} titleformat.
+			
+			\begin{alertblock}{Potential Problems}
+				Be aware, that not every font supports small caps. If for example you typeset your presentation with pdfTeX and the Computer Modern Sans Serif font, every text in smallcaps will be typeset with the Computer Modern Serif font instead.
+			\end{alertblock}
+		\end{frame}
+	}
+	
+	{
+		\metroset{titleformat frame=allsmallcaps}
+		\begin{frame}{All small caps}
+			This frame uses the \texttt{allsmallcaps} titleformat.
+			
+			\begin{alertblock}{Potential problems}
+				As this titleformat also uses smallcaps you face the same problems as with the \texttt{smallcaps} titleformat. Additionally this format can cause some other problems. Please refer to the documentation if you consider using it.
+				
+				As a rule of thumb: Just use it for plaintext-only titles.
+			\end{alertblock}
+		\end{frame}
+	}
+	
+	{
+		\metroset{titleformat frame=allcaps}
+		\begin{frame}{All caps}
+			This frame uses the \texttt{allcaps} titleformat.
+			
+			\begin{alertblock}{Potential Problems}
+				This titleformat is not as problematic as the \texttt{allsmallcaps} format, but basically suffers from the same deficiencies. So please have a look at the documentation if you want to use it.
+			\end{alertblock}
+		\end{frame}
+	}
+	
+	\section{Elements}
+	
+	\begin{frame}[fragile]{Typography}
+		\begin{verbatim}The theme provides sensible defaults to
+			\emph{emphasize} text, \alert{accent} parts
+			or show \textbf{bold} results.\end{verbatim}
+		
+		\begin{center}becomes\end{center}
+		
+		The theme provides sensible defaults to \emph{emphasize} text,
+		\alert{accent} parts or show \textbf{bold} results.
+	\end{frame}
+	
+	\begin{frame}{Font feature test}
+		\begin{itemize}
+			\item Regular
+			\item \textit{Italic}
+			\item \textsc{SmallCaps}
+			\item \textbf{Bold}
+			\item \textbf{\textit{Bold Italic}}
+			\item \textbf{\textsc{Bold SmallCaps}}
+			\item \texttt{Monospace}
+			\item \texttt{\textit{Monospace Italic}}
+			\item \texttt{\textbf{Monospace Bold}}
+			\item \texttt{\textbf{\textit{Monospace Bold Italic}}}
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{Lists}
+		\begin{columns}[T,onlytextwidth]
+			\column{0.33\textwidth}
+			Items
+			\begin{itemize}
+				\item Milk \item Eggs \item Potatos
+			\end{itemize}
+			
+			\column{0.33\textwidth}
+			Enumerations
+			\begin{enumerate}
+				\item First, \item Second and \item Last.
+			\end{enumerate}
+			
+			\column{0.33\textwidth}
+			Descriptions
+			\begin{description}
+				\item[PowerPoint] Meeh. \item[Beamer] Yeeeha.
+			\end{description}
+		\end{columns}
+	\end{frame}
+	\begin{frame}{Animation}
+		\begin{itemize}[<+- | alert@+>]
+			\item \alert<4>{This is\only<4>{ really} important}
+			\item Now this
+			\item And now this
+		\end{itemize}
+	\end{frame}
+	\begin{frame}{Figures}
+		\begin{figure}
+			\newcounter{density}
+			\setcounter{density}{20}
+			\begin{tikzpicture}
+				\def\couleur{alerted text.fg}
+				\path[coordinate] (0,0)  coordinate(A)
+				++( 90:5cm) coordinate(B)
+				++(0:5cm) coordinate(C)
+				++(-90:5cm) coordinate(D);
+				\draw[fill=\couleur!\thedensity] (A) -- (B) -- (C) --(D) -- cycle;
+				\foreach \x in {1,...,40}{%
+					\pgfmathsetcounter{density}{\thedensity+20}
+					\setcounter{density}{\thedensity}
+					\path[coordinate] coordinate(X) at (A){};
+					\path[coordinate] (A) -- (B) coordinate[pos=.10](A)
+					-- (C) coordinate[pos=.10](B)
+					-- (D) coordinate[pos=.10](C)
+					-- (X) coordinate[pos=.10](D);
+					\draw[fill=\couleur!\thedensity] (A)--(B)--(C)-- (D) -- cycle;
+				}
+			\end{tikzpicture}
+			\caption{Rotated square from
+				\href{http://www.texample.net/tikz/examples/rotated-polygons/}{texample.net}.}
+		\end{figure}
+	\end{frame}
+	\begin{frame}{Tables}
+		\begin{table}
+			\caption{Largest cities in the world (source: Wikipedia)}
+			\begin{tabular}{lr}
+				\toprule
+				City & Population\\
+				\midrule
+				Mexico City & 20,116,842\\
+				Shanghai & 19,210,000\\
+				Peking & 15,796,450\\
+				Istanbul & 14,160,467\\
+				\bottomrule
+			\end{tabular}
+		\end{table}
+	\end{frame}
+	\begin{frame}{Blocks}
+		Three different block environments are pre-defined and may be styled with an
+		optional background color.
+		
+		\begin{columns}[T,onlytextwidth]
+			\column{0.5\textwidth}
+			\begin{block}{Default}
+				Block content.
+			\end{block}
+			
+			\begin{alertblock}{Alert}
+				Block content.
+			\end{alertblock}
+			
+			\begin{exampleblock}{Example}
+				Block content.
+			\end{exampleblock}
+			
+			\column{0.5\textwidth}
+			
+			\metroset{block=fill}
+			
+			\begin{block}{Default}
+				Block content.
+			\end{block}
+			
+			\begin{alertblock}{Alert}
+				Block content.
+			\end{alertblock}
+			
+			\begin{exampleblock}{Example}
+				Block content.
+			\end{exampleblock}
+			
+		\end{columns}
+	\end{frame}
+	\begin{frame}{Math}
+		\begin{equation*}
+			e = \lim_{n\to \infty} \left(1 + \frac{1}{n}\right)^n
+		\end{equation*}
+	\end{frame}
+	\begin{frame}{Line plots}
+		\begin{figure}
+			\begin{tikzpicture}
+				\begin{axis}[
+					mlineplot,
+					width=0.9\textwidth,
+					height=6cm,
+					]
+					
+					\addplot {sin(deg(x))};
+					\addplot+[samples=100] {sin(deg(2*x))};
+					
+				\end{axis}
+			\end{tikzpicture}
+		\end{figure}
+	\end{frame}
+	\begin{frame}{Bar charts}
+		\begin{figure}
+			\begin{tikzpicture}
+				\begin{axis}[
+					mbarplot,
+					xlabel={Foo},
+					ylabel={Bar},
+					width=0.9\textwidth,
+					height=6cm,
+					]
+					
+					\addplot plot coordinates {(1, 20) (2, 25) (3, 22.4) (4, 12.4)};
+					\addplot plot coordinates {(1, 18) (2, 24) (3, 23.5) (4, 13.2)};
+					\addplot plot coordinates {(1, 10) (2, 19) (3, 25) (4, 15.2)};
+					
+					\legend{lorem, ipsum, dolor}
+					
+				\end{axis}
+			\end{tikzpicture}
+		\end{figure}
+	\end{frame}
+	\begin{frame}{Quotes}
+		\begin{quote}
+			Veni, Vidi, Vici
+		\end{quote}
+	\end{frame}
+	
+	{%
+		\setbeamertemplate{frame footer}{My custom footer}
+		\begin{frame}[fragile]{Frame footer}
+			\themename defines a custom beamer template to add a text to the footer. It can be set via
+			\begin{verbatim}\setbeamertemplate{frame footer}{My custom footer}\end{verbatim}
+		\end{frame}
+	}
+	
+	\begin{frame}{References}
+		Some references to showcase [allowframebreaks] \cite{knuth92,ConcreteMath,Simpson,Er01,greenwade93}
+	\end{frame}
+	
+	\section{Conclusion}
+	
+	\begin{frame}{Summary}
+		
+		Get the source of this theme and the demo presentation from
+		
+		\begin{center}\url{github.com/matze/mtheme}\end{center}
+		
+		The theme \emph{itself} is licensed under a
+		\href{http://creativecommons.org/licenses/by-sa/4.0/}{Creative Commons
+			Attribution-ShareAlike 4.0 International License}.
+		
+		\begin{center}\ccbysa\end{center}
+		
+	\end{frame}
+	
+	{\setbeamercolor{palette primary}{fg=black, bg=yellow}
+		\begin{frame}[standout]
+			Questions?
+		\end{frame}
+	}
+	
+	\appendix
+	
+	\begin{frame}[fragile]{Backup slides}
+		Sometimes, it is useful to add slides at the end of your presentation to
+		refer to during audience questions.
+		
+		The best way to do this is to include the \verb|appendixnumberbeamer|
+		package in your preamble and call \verb|\appendix| before your backup slides.
+		
+		\themename will automatically turn off slide numbering and progress bars for
+		slides in the appendix.
+	\end{frame}
+	
+	\begin{frame}[allowframebreaks]{References}
+		
+		\bibliography{demo}
+		\bibliographystyle{abbrv}
+		
+	\end{frame}
+	
+\end{document}
